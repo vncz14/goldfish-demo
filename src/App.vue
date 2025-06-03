@@ -1,9 +1,26 @@
 <script setup>
 
-import { ref } from 'vue';
+import { ref,watch } from 'vue';
+
+const OUTPUT_PLACEHOLDER = `Seed: 0xb452bf21
+1N
+2E
+0NE
+4NE
+3W
+6SE
+5NW
+11S
+15SW`
 
 const inputValue = ref('');
-const outputValue = ref('');
+const outputValue = ref(OUTPUT_PLACEHOLDER);
+
+watch(inputValue, (newValue) => {
+    if (newValue === '') {
+        outputValue.value = OUTPUT_PLACEHOLDER;
+    }
+});
 
 const DIRECTIONS_TO_NUMBERS = {
     'S': 0,
@@ -68,10 +85,8 @@ const getOutput = async () => {
 <div class="app">
     <textarea v-model="inputValue" placeholder="1n&#10;2e&#10;0/&#10;4ne&#10;3w&#10;6s"></textarea>
     <button @click="getOutput">Submit</button>
-    <textarea disabled v-model="outputValue" placeholder="Seed: 0xb452bf21&#10;1N&#10;2E&#10;0NE&#10;4NE&#10;3W&#10;6SE&#10;5NW&#10;11S&#10;15SW"></textarea>
+    <textarea disabled v-model="outputValue"></textarea>
 </div>
-
-
 
 </template>
 
