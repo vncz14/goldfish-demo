@@ -60,7 +60,7 @@ const jsonToOutput = (data) => {
 }
 
 const getOutput = async () => {
-    const res = await fetch("http://localhost:3000/wind2seed"/*"https://goldfish.914000.xyz/wind2seed"*/, {
+    const res = await fetch(/*"http://localhost:3000/wind2seed"*/"https://goldfish.914000.xyz/wind2seed", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
