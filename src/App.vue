@@ -70,7 +70,6 @@ const getOutput = async () => {
 
     if (res.ok) {
         const data = await res.json();
-        console.log(data);
         outputValue.value = `${jsonToOutput(data)}`;
     } else {
         outputValue.value = await res.text();
