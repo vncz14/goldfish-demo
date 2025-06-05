@@ -16,6 +16,8 @@ const OUTPUT_PLACEHOLDER = `Seed: 0xb452bf21
 const inputValue = ref('');
 const outputValue = ref(OUTPUT_PLACEHOLDER);
 
+const game = ref('og_1.0');
+
 watch(inputValue, (newValue) => {
     if (newValue === '') {
         outputValue.value = OUTPUT_PLACEHOLDER;
@@ -36,13 +38,16 @@ const DIRECTIONS_TO_NUMBERS = {
 
 const inputToJson = () => {
     const lines = inputValue.value.trim().split('\n');
-    return {winds: lines.map(line => {
+    return {
+        game: game.value, 
+        winds: lines.map(line => {
         const [, speed = '', direction = ''] = line.match(/^(\d+)?([A-Z]+)?$/i) || [];
         return {
             direction: DIRECTIONS_TO_NUMBERS[direction.toUpperCase()] || 9,
             speed: parseInt(speed) || 0
         };
-    })};
+        }),
+    };
 }
 
 const jsonToOutput = (data) => {
@@ -85,11 +90,25 @@ const getOutput = async () => {
     <textarea v-model="inputValue" placeholder="1n&#10;2e&#10;0/&#10;4ne&#10;3w&#10;6s"></textarea>
     <button @click="getOutput">Submit</button>
     <textarea disabled v-model="outputValue"></textarea>
+    <div class="game-select">
+        <h3>Game</h3>
+        <select v-model="game">
+            <option value="og_1.0">Wii Sports 1.0</option>
+            <option value="og_1.1">Wii Sports 1.1/1.2</option>
+        </select>
+    </div>
 </div>
 
 </template>
 
 <style scoped>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
 
 .app {
     display: flex;
@@ -101,7 +120,6 @@ button {
     width: 100%;
     height: 50px;
     font-size: 20px;
-    color: white;
     border: none;
     cursor: pointer;
 }
