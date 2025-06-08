@@ -3,15 +3,7 @@
 import { ref,watch } from 'vue';
 
 const OUTPUT_PLACEHOLDER = `Seed: 0xb452bf21
-1N
-2E
-0NE
-4NE
-3W
-6SE
-5NW
-11S
-15SW`
+1N, 2E, 0NE, 4NE, 3W, 6SE, 5NW, 11S, 15SW`
 
 const inputValue = ref('');
 const outputValue = ref(OUTPUT_PLACEHOLDER);
@@ -67,7 +59,7 @@ const jsonToOutput = (data) => {
         const winds = s.winds.slice(0, GAMES_TO_WIND_COUNT[game.value]).map(wind => {
             const direction = Object.keys(DIRECTIONS_TO_NUMBERS).find(key => DIRECTIONS_TO_NUMBERS[key] === wind.direction) || '';
             return `${wind.speed}${direction}`;
-        }).join('\n');
+        }).join(', ');
 
         return `${seed}\n${winds}`;
     }).join('\n\n') || [];
