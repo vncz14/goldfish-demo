@@ -8,7 +8,7 @@ const OUTPUT_PLACEHOLDER = `Seed: 0xb452bf21
 const inputValue = ref('');
 const outputValue = ref(OUTPUT_PLACEHOLDER);
 
-const game = ref('og_1.0');
+const game = ref('og_1.1');
 
 watch(inputValue, (newValue) => {
     if (newValue === '') {
@@ -97,7 +97,7 @@ const getOutput = async () => {
         <h3>Game</h3>
         <select v-model="game">
             <option value="og_1.0">Wii Sports 1.0</option>
-            <option value="og_1.1" selected>Wii Sports 1.1/1.2</option>
+            <option value="og_1.1">Wii Sports 1.1/1.2</option>
             <option value="wsr">Wii Sports Resort</option>
         </select>
     </div>
