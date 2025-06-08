@@ -24,6 +24,12 @@ watch(inputValue, (newValue) => {
     }
 });
 
+const GAMES_TO_WIND_COUNT = {
+    'og_1.0': 9,
+    'og_1.1': 9,
+    'wsr': 18,
+};
+
 const DIRECTIONS_TO_NUMBERS = {
     'S': 0,
     'SE': 1,
@@ -38,23 +44,27 @@ const DIRECTIONS_TO_NUMBERS = {
 
 const inputToJson = () => {
     const lines = inputValue.value.trim().split('\n');
-    return {
+
+    const json = {
         game: game.value, 
         winds: lines.map(line => {
         const [, speed = '', direction = ''] = line.match(/^(\d+)?([A-Z]+)?$/i) || [];
         return {
-            direction: DIRECTIONS_TO_NUMBERS[direction.toUpperCase()] || 9,
+            direction: direction
+                ? (DIRECTIONS_TO_NUMBERS[direction.toUpperCase()] ?? 9)
+                : 9,
             speed: parseInt(speed) || 0
         };
         }),
     };
+    return json;
 }
 
 const jsonToOutput = (data) => {
     return data.map(s => {
         const seed = "Seed: 0x" + Number(s.seed).toString(16).padStart(8, '0');
 
-        const winds = s.winds.map(wind => {
+        const winds = s.winds.slice(0, GAMES_TO_WIND_COUNT[game.value]).map(wind => {
             const direction = Object.keys(DIRECTIONS_TO_NUMBERS).find(key => DIRECTIONS_TO_NUMBERS[key] === wind.direction) || '';
             return `${wind.speed}${direction}`;
         }).join('\n');
@@ -65,7 +75,8 @@ const jsonToOutput = (data) => {
 }
 
 const getOutput = async () => {
-    const res = await fetch(/*"http://localhost:3000/wind2seed"*/"https://goldfish.914000.xyz/wind2seed", {
+    // const res = await fetch("http://localhost:3000/wind2seed", {
+    const res = await fetch("https://goldfish.914000.xyz/wind2seed", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -95,6 +106,7 @@ const getOutput = async () => {
         <select v-model="game">
             <option value="og_1.0">Wii Sports 1.0</option>
             <option value="og_1.1">Wii Sports 1.1/1.2</option>
+            <option value="wsr">Wii Sports Resort</option>
         </select>
     </div>
 </div>
