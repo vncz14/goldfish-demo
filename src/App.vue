@@ -22,7 +22,7 @@ watch(inputValue, (newValue) => {
 
 const OGWS_SETTINGS = {
     wind_count: 9,
-    advance_function: (seed) => (seed * 69069 + 1) >>> 0,
+    advance_function: (seed) => Number((BigInt(seed) * 69069n + 1n) & 0xffffffffn),
     advance_counts: {
         reset: 41,
         hole_load: 17,
@@ -31,7 +31,7 @@ const OGWS_SETTINGS = {
 
 const WSR_SETTINGS = {
     wind_count: 18,
-    advance_function: (seed) => (seed * 0x41c64e6d + 0x3039) >>> 0,
+    advance_function: (seed) => Number((BigInt(seed) * 0x41c64e6dn + 0x3039n) & 0xffffffffn),
     advance_counts: {
         reset: 102,
         hole_load: 45,
